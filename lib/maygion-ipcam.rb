@@ -8,7 +8,8 @@ require 'open-uri'
 class MayGionIPCam
 
   attr_reader :resp, :cookie
-
+  Factor = 500
+  
   def initialize(opt)
     
     o = {username: 'user', password: 'user', address: '192.168.1.14', port: 80, cookie: ''}.merge(opt)
@@ -23,19 +24,19 @@ class MayGionIPCam
   end
 
   def left(i=1)
-    move_camera "&dir=btnPtzLeft&tick=%s&nPtzTimes=%s" %  [i * 100, i]
+    move_camera "&dir=btnPtzLeft&tick=%s&nPtzTimes=1" %  [i * Factor]
   end
 
   def right(i=1)
-    move_camera "&dir=btnPtzRight&tick=%s&nPtzTimes=%s" %  [i * 100, i]
+    move_camera "&dir=btnPtzRight&tick=%s&nPtzTimes=1" %  [i * Factor]
   end
 
   def up(i=1)
-    move_camera "&dir=btnPtzUp&tick=%s&nPtzTimes=%s" %  [i * 100, i]
+    move_camera "&dir=btnPtzUp&tick=%s&nPtzTimes=1" %  [i * Factor]
   end
 
   def down(i=1)
-    move_camera "&dir=btnPtzDown&tick=%s&nPtzTimes=%s" %  [i * 100, i]
+    move_camera "&dir=btnPtzDown&tick=%s&nPtzTimes=1" %  [i * Factor]
   end
 
   def login(username, password)
