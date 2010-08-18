@@ -7,30 +7,35 @@ require 'open-uri'
 
 class MayGionIPCam
 
-  attr_reader :resp
+  attr_reader :resp, :cookie
 
   def initialize(opt)
-    o = {username: 'user', password: 'user', address: '192.168.1.14', port: 80}.merge(opt)
+    
+    o = {username: 'user', password: 'user', address: '192.168.1.14', port: 80, cookie: ''}.merge(opt)
     @addr, @port = o[:address], o[:port]
-    @raw_url = "http://#{@addr}/cgi.cmd?cmd=moveptz&tick=100&user=user&pwd=user"
-    @resp, data = login(o[:username], o[:password])
-    @cookie = @resp.response['set-cookie'].scan(/\w+\=[^=]+(?=;)/).join(';')
+    @raw_url = "http://#{@addr}/cgi.cmd?cmd=moveptz&user=user&pwd=user"
+    @cookie = o[:cookie]
+    
+    if @cookie.empty? then
+      @resp, data = login(o[:username], o[:password])
+      @cookie = @resp.response['set-cookie'].scan(/\w+\=[^=]+(?=;)/).join(';')
+    end
   end
 
   def left(i=1)
-    move_camera '&dir=btnPtzLeft&nPtzTimes=' + i.to_s
+    move_camera "&dir=btnPtzLeft&tick=%s&nPtzTimes=%s" %  [i * 100, i]
   end
 
   def right(i=1)
-    move_camera '&dir=btnPtzRight&nPtzTimes=' + i.to_s
+    move_camera "&dir=btnPtzRight&tick=%s&nPtzTimes=%s" %  [i * 100, i]
   end
 
   def up(i=1)
-    move_camera '&dir=btnPtzUp&nPtzTimes=' + i.to_s
+    move_camera "&dir=btnPtzUp&tick=%s&nPtzTimes=%s" %  [i * 100, i]
   end
 
   def down(i=1)
-    move_camera '&dir=btnPtzDown&nPtzTimes=' + i.to_s
+    move_camera "&dir=btnPtzDown&tick=%s&nPtzTimes=%s" %  [i * 100, i]
   end
 
   def login(username, password)
