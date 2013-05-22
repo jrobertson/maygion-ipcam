@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/ruby
 
 # file: maygion-ipcam.rb
 
@@ -12,11 +12,9 @@ class MayGionIPCam
   
   def initialize(opt)
     
-    o = {username: 'user', password: 'user', address: '192.168.1.14', \
-         port: 80, cookie: ''}.merge(opt)
+    o = {username: 'user', password: 'user', address: '192.168.1.14', port: 80, cookie: ''}.merge(opt)
     @addr, @port = o[:address], o[:port]
-    @raw_url = "http://#{@addr}/cgi.cmd?cmd=moveptz&user=" + o[:username] \
-        + "&pwd=" + o[:password]
+    @raw_url = "http://#{@addr}/cgi.cmd?cmd=moveptz&user=user&pwd=user"
     @cookie = o[:cookie]
     
     if @cookie.empty? then
@@ -47,8 +45,7 @@ class MayGionIPCam
     path = '/cgi-bin/cgicmd'
 
     # POST request -> logging in
-    data = "szAccount=#{username}&szPassword=" + password +  
-        "&cmd=Login&urlOnSuccess=/mobile.asp"
+    data = 'szAccount=user&szPassword=user&cmd=Login&urlOnSuccess=/mobile.asp'
     headers = {
       'Referer' => "http://#{@addr}/login.asp",
       'Content-Type' => 'application/x-www-form-urlencoded'
@@ -59,7 +56,6 @@ class MayGionIPCam
 
   def move_camera(instruction)
     url = @raw_url + instruction
-    open(url, 'UserAgent' => 'Ruby IPCO (IP Camera Operator)', \
-         'Cookie' => @cookie){|x| x.read}
+    open(url, 'UserAgent' => 'Ruby IPCO (IP Camera Operator)', 'Cookie' => @cookie).read
   end
 end
