@@ -62,4 +62,12 @@ class MayGionIPCam
     open(url, 'UserAgent' => 'Ruby IPCO (IP Camera Operator)', \
          'Cookie' => @cookie){|x| x.read}
   end
+  
+  def snap()
+    
+    url = "http://#{@addr}/snap.jpg"
+    open(url, 'UserAgent' => 'Ruby IPCO (IP Camera Operator)', \
+         'Cookie' => @cookie){|x| x.read}
+
+  end
 end
