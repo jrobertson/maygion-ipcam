@@ -59,14 +59,14 @@ class MayGionIPCam
 
   def move_camera(instruction)
     url = @raw_url + instruction
-    open(url, 'UserAgent' => 'Ruby IPCO (IP Camera Operator)', \
+    URI.open(url, 'UserAgent' => 'Ruby IPCO (IP Camera Operator)', \
          'Cookie' => @cookie){|x| x.read}
   end
   
   def snap()
     
     url = "http://#{@addr}/snap.jpg"
-    open(url, 'UserAgent' => 'Ruby IPCO (IP Camera Operator)', \
+    URI.open(url, 'UserAgent' => 'Ruby IPCO (IP Camera Operator)', \
          'Cookie' => @cookie){|x| x.read}
 
   end
